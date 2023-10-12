@@ -1,14 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-counter',
   templateUrl: './counter.component.html',
-  styleUrls: ['./counter.component.css']
+  styleUrls: ['./counter.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CounterComponent implements OnInit {
-
-  constructor() {}
-
-  ngOnInit(): void {}
+export class CounterComponent {
 }

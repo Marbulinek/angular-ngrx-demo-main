@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { decrement, increment, reset } from '../state/counter.actions';
 import { AppState } from 'src/app/store/app.state';
@@ -6,28 +6,21 @@ import { AppState } from 'src/app/store/app.state';
 @Component({
   selector: 'app-counter-buttons',
   templateUrl: './counter-buttons.component.html',
-  styleUrls: ['./counter-buttons.component.css']
+  styleUrls: ['./counter-buttons.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CounterButtonsComponent implements OnInit{
-  
-  constructor(private store: Store<AppState>) {
+export class CounterButtonsComponent {
+  constructor(private store: Store<AppState>) {}
 
-  }
-
-  ngOnInit(): void {
-  }
-
-  
-  onIncrement(): void{
+  onIncrement(): void {
     this.store.dispatch(increment());
   }
 
-  onDecrement(): void{
+  onDecrement(): void {
     this.store.dispatch(decrement());
   }
 
-  onReset(): void{
+  onReset(): void {
     this.store.dispatch(reset());
   }
-
 }

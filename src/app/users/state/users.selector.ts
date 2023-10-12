@@ -8,3 +8,4 @@ const getUsersState = createFeatureSelector<UsersState>(USERS_STATE_NAME);
 export const getUserList = createSelector(getUsersState, state => {
     return state.users;
 });
+

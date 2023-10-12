@@ -1,40 +1,24 @@
-import { createReducer, on } from '@ngrx/store';
-import initialState from './posts.state';
-import { addPost, deletePost, updatePost } from './posts.actions';
-
+import { Action, createReducer, on } from '@ngrx/store';
+import initialState, { PostsState, postsAdapter } from './posts.state';
+import { addPost, deletePost, initializePosts, updatePost } from './posts.actions';
 
 const _postsReducer = createReducer(
-    initialState,
-    on(addPost, (state, action) => {
-        let post = {...action.post};
-        post.id = (state.posts.length + 1);
-        return {
-            ...state,
-            posts: [...state.posts, post],
-        }
-    }),
-    on(updatePost, (state, action) => {
-        const foundIndex = state.posts.findIndex(x => x.id === action.post.id);
-        let updatedList = [...state.posts];
-        updatedList[foundIndex] = action.post;
-        return {
-            ...state,
-            posts: updatedList
-        }
-    }),
-    on(deletePost, (state, action) => {
-        const foundIndex = state.posts.findIndex(x => x.id === action.post.id);
-        let updatedList = [...state.posts];
-        updatedList.splice(foundIndex, 1);
-        return {
-            ...state,
-            posts: updatedList
-        }
-    })
+  initialState,
+  on(initializePosts, (state, action) => {
+    return postsAdapter.addMany(action.posts, state);
+  }),
+  on(addPost, (state, action) => {
+    return postsAdapter.addOne(action.post, state);
+  }),
+  on(updatePost, (state, action) => {
+    return postsAdapter.upsertOne(action.post, state);
+  }),
+  on(deletePost, (state, action) => {
+    const id = action.post.id ?? 0;
+    return postsAdapter.removeOne(id, state);
+  })
 );
 
-
-export function postsReducer(state: any, action: any)
-{
-    return _postsReducer(state, action)
+export function postsReducer(state: PostsState, action: Action) {
+  return _postsReducer(state, action);
 }

@@ -1,5 +1,5 @@
-import { createReducer, on } from "@ngrx/store";
-import { initialState } from "./users.state";
+import { Action, createReducer, on } from "@ngrx/store";
+import { UsersState, initialState } from "./users.state";
 import { usersLoadSuccess } from "./users.actions";
 
 const _usersReducer = createReducer(
@@ -13,6 +13,6 @@ const _usersReducer = createReducer(
 );
 
 
-export function usersReducer(state: any, action: any) {
+export function usersReducer(state: UsersState, action: Action) {
     return _usersReducer(state, action);
 }
